@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Patatap Clone</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/patatap.css">
+    <link rel="stylesheet" href="assets/css/lib/animate.css">
+    <script type="text/javascript" src="assets/js/lib/howler.js"></script>
+    <script type="text/javascript" src="assets/js/lib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="assets/js/lib/paperjs-v0.11.5/dist/paper-full.js"></script>
+
+    <script type="text/paperscript" canvas="myCanvas">
+    // Keydata is an Onject which is a collection of other objects.
+    // Each object inside can be accessed by using the syntax keyData["object name"]
+      var keyData = {
+        q: {
+          sound: new Howl({
+            src: ['assets/sounds/bubbles.mp3']
+          }),
+          color: '#1abc9c'
+        },
+        w: {
+          sound: new Howl({
+            src: ['assets/sounds/clay.mp3']
+          }),
+          color: '#2ecc71'
+        },
+        e: {
+          sound: new Howl({
+            src: ['assets/sounds/confetti.mp3']
+          }),
+          color: '#3498db'
+        },
+        r: {
+          sound: new Howl({
+            src: ['assets/sounds/corona.mp3']
+          }),
+          color: '#9b59b6'
+        },
+          t: {
+          sound: new Howl({
+            src: ['assets/sounds/dotted-spiral.mp3']
+          }),
+          color: '#34495e'
+        },
+        y: {
+          sound: new Howl({
+            src: ['assets/sounds/flash-1.mp3']
+          }),
+          color: '#16a085'
+        },
+        u: {
+          sound: new Howl({
+            src: ['assets/sounds/flash-2.mp3']
+          }),
+          color: '#27ae60'
+        },
+        i: {
+          sound: new Howl({
+            src: ['assets/sounds/flash-3.mp3']
+          }),
+          color: '#2980b9'
+        },
+        o: {
+          sound: new Howl({
+            src: ['assets/sounds/glimmer.mp3']
+          }),
+          color: '#8e44ad'
+        },
+        p: {
+          sound: new Howl({
+            src: ['assets/sounds/moon.mp3']
+          }),
+          color: '#2c3e50'
+        },
+        a: {
+          sound: new Howl({
+            src: ['assets/sounds/pinwheel.mp3']
+          }),
+          color: '#f1c40f'
+        },
+        s: {
+          sound: new Howl({
+            src: ['assets/sounds/piston-1.mp3']
+          }),
+          color: '#e67e22'
+        },
+          d: {
+          sound: new Howl({
+            src: ['assets/sounds/piston-2.mp3']
+          }),
+          color: '#e74c3c'
+        },
+        f: {
+          sound: new Howl({
+            src: ['assets/sounds/prism-1.mp3']
+          }),
+          color: '#95a5a6'
+        },
+        g: {
+          sound: new Howl({
+            src: ['assets/sounds/prism-2.mp3']
+          }),
+          color: '#f39c12'
+        },
+        h: {
+          sound: new Howl({
+            src: ['assets/sounds/prism-3.mp3']
+          }),
+          color: '#d35400'
+        },
+        j: {
+          sound: new Howl({
+            src: ['assets/sounds/splits.mp3']
+          }),
+          color: '#1abc9c'
+        },
+        k: {
+          sound: new Howl({
+            src: ['assets/sounds/squiggle.mp3']
+          }),
+          color: '#2ecc71'
+        },
+        l: {
+          sound: new Howl({
+            src: ['assets/sounds/strike.mp3']
+          }),
+          color: '#3498db'
+        },
+        z: {
+          sound: new Howl({
+            src: ['assets/sounds/suspension.mp3']
+          }),
+          color: '#9b59b6'
+        },
+        x: {
+          sound: new Howl({
+            src: ['assets/sounds/timer.mp3']
+          }),
+          color: '#34495e'
+        },
+        c: {
+          sound: new Howl({
+            src: ['assets/sounds/ufo.mp3']
+          }),
+          color: '#16a085'
+        },
+        v: {
+          sound: new Howl({
+            src: ['assets/sounds/veil.mp3']
+          }),
+          color: '#27ae60'
+        },
+        b: {
+          sound: new Howl({
+            src: ['assets/sounds/wipe.mp3']
+          }),
+          color: '#2980b9'
+        },
+        n: {
+          sound: new Howl({
+            src: ['assets/sounds/zig-zag.mp3']
+          }),
+          color: '#8e44ad'
+        },
+        m: {
+          sound: new Howl({
+            src: ['assets/sounds/moon.mp3']
+          }),
+          color: '#2c3e50'
+        }
+      }
+
+    // Make circle appear when a key is pressed down
+        function onKeyDown(event) {
+          // Check if the key pressed matches the data ( or is an alphabets) in keyDtata object (which only contains the alphabet keys)
+          if(keyData[event.key]) {
+            // Generate a random point (width, height) using the max canvas width and height (in view at the moment)
+            var maxPoint = new Point(view.size.width, view.size.height);
+            var randomPoint = Point.random();
+            var point = maxPoint * randomPoint;
+            var myCircle = new Path.Circle(point, 300);
+            myCircle.fillColor = keyData[event.key].color;
+            keyData[event.key].sound.play();
+
+
+            // Uses the onFrame() handler function that fires 60 times in 1 sec
+            myCircle.onFrame = function(event) {
+              myCircle.fillColor.hue += 1;
+              myCircle.scale(.92);
+
+              // This removes the circle from the canvas after its area is less than 1
+              if(myCircle.area < 1){
+                myCircle.remove();
+              }
+            }
+          }
+        }
+
+</script>
+
+  </head>
+  <body>
+    <h1>Press any key, A to Z, and turn up speakers</h1>
+    <canvas id="myCanvas" resize></canvas>
+
+    <script type="text/javascript" src="assets/js/patatap.js"></script>
+
+  </body>
+</html>
